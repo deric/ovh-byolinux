@@ -50,7 +50,7 @@ source "qemu" "debian" {
     "${var.iso_mirror}/${var.iso_file}"
   ]
   machine_type = "pc"
-  memory       = var.memory
+  memory       = var.build_mem
   //net_device       = "virtio-net"
   // pure magic, should immitate common intel driver
   net_device = var.net_device
@@ -118,6 +118,6 @@ build {
   }
 
   post-processor "shell-local" {
-    inline = ["echo \"Test final image e.g. with:\\nqemu-system-x86_64 -m ${var.build_mem} -enable-kvm -boot menu=on -device ${var.net_device} -drive file=${local.output_directory}/${var.hostname}.${var.image_format}\""]
+    inline = ["echo \"Test final image e.g. with:\\nqemu-system-x86_64 -m ${var.vm_mem} -enable-kvm -boot menu=on -device ${var.net_device} -drive file=${local.output_directory}/${var.hostname}.${var.image_format}\""]
   }
 }

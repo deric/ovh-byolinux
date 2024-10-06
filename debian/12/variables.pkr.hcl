@@ -9,6 +9,11 @@ variable "packages" {
 
 variable "build_mem" {
   type    = string
+  default = 1024
+}
+
+variable "vm_mem" {
+  type    = string
   default = "3G"
 }
 
@@ -106,11 +111,6 @@ variable "language" {
 variable "locale" {
   type    = string
   default = "en_US.UTF-8"
-}
-
-variable "memory" {
-  type    = string
-  default = "768"
 }
 
 variable "mirror" {
