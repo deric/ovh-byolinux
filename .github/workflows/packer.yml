@@ -1,0 +1,21 @@
+---
+name: Builder
+on:
+  workflow_dispatch:
+jobs:
+  build:
+    runs-on: ubuntu-22.04
+    permissions: write-all
+    steps:
+      - uses: actions/checkout@v3
+      - name: Build with packer
+        run: |
+          sudo apt install -y --no-install-recommends packer \
+             qemu-system-x86 qemu-utils guestfs-tools genisoimage
+          packer plugins install github.com/hashicorp/qemu
+          PACKER_LOG=1 packer build -var-file=example.pkrvars.hcl debian/12
+      - name: GH Release
+        uses: softprops/action-gh-release@v0.1.15
+        with:
+          files: |
+            output/*/*.qcow2
