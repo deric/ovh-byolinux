@@ -7,15 +7,16 @@ jobs:
     runs-on: ubuntu-22.04
     permissions: write-all
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - name: Build with packer
         run: |
           sudo apt install -y --no-install-recommends packer \
              qemu-system-x86 qemu-utils guestfs-tools genisoimage
           packer plugins install github.com/hashicorp/qemu
+          sudo usermod -a -G kvm $(whoami)
           PACKER_LOG=1 packer build -var-file=example.pkrvars.hcl debian/12
       - name: GH Release
-        uses: softprops/action-gh-release@v0.1.15
+        uses: softprops/action-gh-release@v2
         with:
           files: |
             output/*/*.qcow2
